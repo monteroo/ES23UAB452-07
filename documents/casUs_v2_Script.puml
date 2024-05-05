@@ -4,7 +4,7 @@
 skinparam monochrome true
 skinparam backgroundColor transparent
 skinparam shadowing false
-skinparam defaultFontName Helvetica 
+skinparam defaultFontName Helvetica
 'left to right direction
 
 
@@ -74,27 +74,33 @@ CU307 -d- supervisor
 package lliuraments {
 usecase "Cercar transportistes" as CU402
 usecase "Escollir metode de transport" as CU401
-userBotiga -d- CU402
-CU401 -u[dashed]-> CU402 : extends
+userBotiga -l- CU402
+CU401 -l[dashed]-> CU402 : extends
 }
 
 package sistemaGPS {
 usecase "Localitzar Transportista" as CU4031
 usecase "Comptar kilometres" as CU4032
-userTransportista -- CU4032
+usecase "Planificar ruta optima" as CU405
+userTransportista -r- CU4032
 CU207 -d[dashed]-> CU4031 : include
-CU4032 -r[dashed]-> CU4031 : extends
+CU4032 -u[dashed]-> CU4031 : extends
 CU402 -u[dashed]-> CU4031 : include
+CU3021 .> CU405 : include
+userTransportista -- CU405
 } 
 
 package cobraments {
 usecase "Aplicar comissio a botiga" as CU308
 CU3021 -l[dashed]-> CU308 : include
 usecase "Aplicar costos de transport" as CU4041
-userBotiga -- CU4041
+usecase "Pagar serveis" as CU4043
+CU4043 -u[dashed]-> CU4041 : include
+CU4043 -u[dashed]-> CU308 : include
+userBotiga -- CU4043
 CU4041 .> CU4032 : include
 usecase "Pagar transportistes" as CU4042
-CU4041 -u[dashed]-> CU4042
+CU4042 -d[dashed]-> CU4041 : include
 banc -d- CU4042
 }
 @enduml
