@@ -13,9 +13,27 @@ actor userBotiga
 actor userTransportista
 actor supervisor
 actor companyiaExterna
+actor proveidorExtern
 actor banc
 
-package Comanda {
+package compte {
+usecase "Resgistrar-se" as CU6021
+usecase "Accedir" as CU6022
+usecase "Modificar dades" as CU6051
+usecase "Eliminar dades" as CU6052
+usecase "Donar-se de baixa" as CU6053
+CU6052 -u[dashed]-> CU6053 : extends
+CU6053 -u[dashed]-> CU6051 : extends
+CU6021 -u[dashed]-> CU6022 : extends
+userClient -- CU6022
+userBotiga -- CU6022
+userTransportista -- CU6022
+userClient -- CU6051
+userBotiga -- CU6051
+userTransportista -- CU6051
+}
+
+package comanda {
 package solicitudComanda {
 usecase "Solicitar comanda" as CU102
 usecase "Llistar botigues" as CU103
@@ -27,7 +45,9 @@ CU201 -d[dashed]-> CU202 : include
 usecase "Seleccionar quantitat" as CU203
 CU202 <-d[dashed]- CU203 : extends
 usecase "Mostrar preu" as CU209
-CU202 -l[dashed]-> CU209 : include
+usecase "Calcular preu transport" as CU407
+CU202 -l[dashed]-> CU407 : include
+CU407 -d[dashed]-> CU209 : include
 }
 
 package finalitzacioComanda {
@@ -51,7 +71,7 @@ CU207 -u[dashed]-> CU205 : extends
 package abonaments {
 usecase "Solicitar retorn de diners" as CU306
 usecase "avaluarAbonament" as CU307 
-CU306 -r[dashed]-> CU307 : include
+CU306 -d[dashed]-> CU307 : include
 }
 
 package abonamentsBotiga {
@@ -65,7 +85,7 @@ companyiaExterna -u- CU3010
 userBotiga -d- CU309
 userClient -l- CU102
 userClient -l- CU205
-userClient -l- CU306
+userClient -d- CU306
 
 
 CU303 -d--- userBotiga
@@ -74,8 +94,8 @@ CU307 -d- supervisor
 package lliuraments {
 usecase "Cercar transportistes" as CU402
 usecase "Escollir metode de transport" as CU401
-userBotiga -l- CU402
-CU401 -l[dashed]-> CU402 : extends
+userBotiga -u- CU402
+CU401 -u[dashed]-> CU402 : extends
 }
 
 package sistemaGPS {
@@ -102,5 +122,13 @@ CU4041 .> CU4032 : include
 usecase "Pagar transportistes" as CU4042
 CU4042 -d[dashed]-> CU4041 : include
 banc -d- CU4042
+usecase "Rebre Diners" as CU503
 }
+
+package publicitat {
+usecase "Mostrar publicitat" as CU501
+proveidorExtern -- CU501
+CU501 -[dashed]-> CU503 : include
+}
+
 @enduml
