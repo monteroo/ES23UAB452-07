@@ -1,6 +1,7 @@
-@startuml casUs_v2
+@startuml
 
 !theme plain
+skinparam linetype ortho
 skinparam monochrome true
 skinparam backgroundColor transparent
 skinparam shadowing false
@@ -17,67 +18,67 @@ actor proveidorExtern
 actor banc
 
 package compte {
-    usecase "Resgistrar-se" as CU6021
-    usecase "Accedir" as CU6022
-    usecase "Modificar dades" as CU6051
-    usecase "Eliminar dades" as CU6052
-    usecase "Donar-se de baixa" as CU6053
-    CU6052 -u[dashed]-> CU6053 : extends
-    CU6053 -u[dashed]-> CU6051 : extends
-    CU6021 -u[dashed]-> CU6022 : extends
-    userClient -- CU6022
-    userBotiga -- CU6022
-    userTransportista -- CU6022
-    userClient -- CU6051
-    userBotiga -- CU6051
-    userTransportista -- CU6051
+usecase "Resgistrar-se" as CU6021
+usecase "Accedir" as CU6022
+usecase "Modificar dades" as CU6051
+usecase "Eliminar dades" as CU6052
+usecase "Donar-se de baixa" as CU6053
+CU6052 -u[dashed]-> CU6053 : extends
+CU6053 -u[dashed]-> CU6051 : extends
+CU6021 -u[dashed]-> CU6022 : extends
+userClient -- CU6022
+userBotiga -- CU6022
+userTransportista -- CU6022
+userClient -- CU6051
+userBotiga -- CU6051
+userTransportista -- CU6051
 }
 
 package comanda {
-    package solicitudComanda {
-        usecase "Solicitar comanda" as CU102
-        usecase "Llistar botigues" as CU103
-        CU102 -u[dashed]-> CU103 : include
-        usecase "Seleccionar oferta" as CU201
-        CU201 .> CU103 : extends
-        usecase "Llistar productes" as CU202
-        CU201 -d[dashed]-> CU202 : include
-        usecase "Seleccionar quantitat" as CU203
-        CU202 <-d[dashed]- CU203 : extends
-        usecase "Mostrar preu" as CU209
-        usecase "Calcular preu transport" as CU407
-        CU202 -l[dashed]-> CU407 : include
-        CU407 -d[dashed]-> CU209 : include
-    }
+package solicitudComanda {
+usecase "Solicitar comanda" as CU102
+usecase "Llistar botigues" as CU103
+CU102 -u[dashed]-> CU103 : include
+usecase "Seleccionar oferta" as CU201
+CU201 .> CU103 : extends
+usecase "Llistar productes" as CU202
+CU201 -d[dashed]-> CU202 : include
+usecase "Seleccionar quantitat" as CU203
+CU202 <-d[dashed]- CU203 : extends
+usecase "Mostrar preu" as CU209
+usecase "Calcular preu transport" as CU407
+CU202 -l[dashed]-> CU407 : include
+CU407 -d[dashed]-> CU209 : include
+}
 
-    package finalitzacioComanda {
-        usecase "Acceptar oferta" as CU3021
-        CU203 <-d[dashed]- CU3021 : extends 
-        usecase "Escollir metode de pagament" as CU3022
-        CU3021 -l[dashed]-> CU3022 : include
-        usecase "Configurar metodes de pagament" as CU303
-        CU303 -u[dashed]-> CU3022 : extends
-    }
+package finalitzacioComanda {
+usecase "Acceptar oferta" as CU3021
+CU203 <-d[dashed]- CU3021 : extends 
+usecase "Escollir metode de pagament" as CU3022
+CU3021 -l[dashed]-> CU3022 : include
+usecase "Configurar metodes de pagament" as CU303
+CU303 -u[dashed]-> CU3022 : extends
+}
 
-    package consultaComanda {
-        usecase "Consultar estat" as CU205
-        CU205 .> CU3021 : extends
-        usecase "Mostrar mapa" as CU207
-        CU207 -u[dashed]-> CU205 : extends
-    }
+package consultaComanda {
+usecase "Consultar estat" as CU205
+CU205 .> CU3021 : extends
+usecase "Mostrar mapa" as CU207
+CU207 -u[dashed]-> CU205 : extends
+}
 
 }
 
 package abonaments {
-    usecase "Solicitar retorn de diners" as CU306
-    usecase "avaluarAbonament" as CU307 
-    CU306 -d[dashed]-> CU307 : include
+usecase "Solicitar retorn de diners" as CU306
+usecase "avaluarAbonament" as CU307 
+CU306 -d[dashed]-> CU307 : include
 }
 
 package abonamentsBotiga {
-    usecase "Fer reclamació" as CU309
-    usecase "Gestionar reclamació" as CU3010
-    CU309 -d[dashed]-> CU3010 : include
+usecase "Fer reclamació" as CU309
+usecase "Gestionar reclamació" as CU3010
+CU309 -d[dashed]-> CU3010 : include
 }
 
 
@@ -92,43 +93,43 @@ CU303 -d--- userBotiga
 CU307 -d- supervisor 
 
 package lliuraments {
-    usecase "Cercar transportistes" as CU402
-    usecase "Escollir metode de transport" as CU401
-    userBotiga -u- CU402
-    CU401 -u[dashed]-> CU402 : extends
+usecase "Cercar transportistes" as CU402
+usecase "Escollir metode de transport" as CU401
+userBotiga -u- CU402
+CU401 -u[dashed]-> CU402 : extends
 }
 
 package sistemaGPS {
-    usecase "Localitzar Transportista" as CU4031
-    usecase "Comptar kilometres" as CU4032
-    usecase "Planificar ruta optima" as CU405
-    userTransportista -r- CU4032
-    CU207 -d[dashed]-> CU4031 : include
-    CU4032 -u[dashed]-> CU4031 : extends
-    CU402 -u[dashed]-> CU4031 : include
-    CU3021 .> CU405 : include
-    userTransportista -- CU405
+usecase "Localitzar Transportista" as CU4031
+usecase "Comptar kilometres" as CU4032
+usecase "Planificar ruta optima" as CU405
+userTransportista -r- CU4032
+CU207 -d[dashed]-> CU4031 : include
+CU4032 -u[dashed]-> CU4031 : extends
+CU402 -u[dashed]-> CU4031 : include
+CU3021 .> CU405 : include
+userTransportista -- CU405
 } 
 
 package cobraments {
-    usecase "Aplicar comissio a botiga" as CU308
-    CU3021 -l[dashed]-> CU308 : include
-    usecase "Aplicar costos de transport" as CU4041
-    usecase "Pagar serveis" as CU4043
-    CU4043 -u[dashed]-> CU4041 : include
-    CU4043 -u[dashed]-> CU308 : include
-    userBotiga -- CU4043
-    CU4041 .> CU4032 : include
-    usecase "Pagar transportistes" as CU4042
-    CU4042 -d[dashed]-> CU4041 : include
-    banc -d- CU4042
-    usecase "Rebre Diners" as CU503
+usecase "Aplicar comissio a botiga" as CU308
+CU3021 -l[dashed]-> CU308 : include
+usecase "Aplicar costos de transport" as CU4041
+usecase "Pagar serveis" as CU4043
+CU4043 -u[dashed]-> CU4041 : include
+CU4043 -u[dashed]-> CU308 : include
+userBotiga -d- CU4043
+CU4041 .> CU4032 : include
+usecase "Pagar transportistes" as CU4042
+CU4042 -d[dashed]-> CU4041 : include
+banc -d- CU4042
+usecase "Rebre Diners" as CU503
 }
 
 package publicitat {
-    usecase "Mostrar publicitat" as CU501
-    proveidorExtern -- CU501
-    CU501 -[dashed]-> CU503 : include
+usecase "Mostrar publicitat" as CU501
+proveidorExtern -- CU501
+CU501 -[dashed]-> CU503 : include
 }
 
 @enduml
