@@ -36,7 +36,7 @@ userTransportista -- CU6051
 
 package comanda {
 package solicitudComanda {
-usecase "Solicitar comanda" as CU102
+usecase "Sol·licitar comanda" as CU102
 usecase "Llistar botigues" as CU103
 CU102 -u[dashed]-> CU103 : include
 usecase "Seleccionar oferta" as CU201
@@ -47,7 +47,7 @@ usecase "Seleccionar quantitat" as CU203
 CU202 <-d[dashed]- CU203 : extends
 usecase "Mostrar preu" as CU209
 usecase "Calcular preu transport" as CU407
-CU202 -l[dashed]-> CU407 : include
+CU201 -r[dashed]-> CU407 : include
 CU407 -d[dashed]-> CU209 : include
 }
 
