@@ -2,12 +2,12 @@
 
 !theme plain
 skinparam linetype ortho
-skinparam monochrome true
 skinparam backgroundColor transparent
 skinparam shadowing false
 skinparam defaultFontName Helvetica
-'left to right direction
-
+skinparam actor {
+BackgroundColor #000000
+}
 
 actor userClient
 actor userBotiga
